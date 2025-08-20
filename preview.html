@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resume Preview</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles/styls.css">
+</head>
+
+<body>
+    <div class="container">
+        <header>
+            <h1>Resume Preview</h1>
+            <p>Review your resume and download it as a PDF</p>
+        </header>
+
+        <div class="resume-container" id="resume-container">
+            <!-- Pages will be inserted here -->
+        </div>
+
+        <div class="actions">
+            <button id="download-pdf">Download PDF</button>
+        </div>
+
+        <div class="success-message" id="success-message">
+            Your PDF has been generated successfully!
+        </div>
+
+        <div id="download-popup">
+            <div id="popup-content">
+                <h2>Enter File Name</h2>
+                <input type="text" id="pdf-filename" placeholder="Resume_Name" value="My_Resume">
+                <div>
+                    <button id="confirm-download">Download</button>
+                    <button id="cancel-download">Cancel</button>
+                </div>
+            </div>
+        </div>
+
+        <footer>
+            <p>Resume Builder Tool &copy; 2023</p>
+        </footer>
+    </div>
+
+<script src="scripts/script.js"></script>
+</body>
+
+</html>
