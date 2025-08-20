@@ -22,3 +22,7 @@
 1. Clone the repository:  
    ```bash
    git clone https://github.com/muskanbegam/QuickCV.git
+
+#View
+
+QiuckCV Link : https://muskanbegam.github.io/QuickCV/
