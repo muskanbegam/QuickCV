@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resume Preview</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+            * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #f0f2f5;
+            color: #333;
+            line-height: 1.6;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        header {
+            text-align: center;
+            padding: 10px 0;
+            color: #2c3e50;
+            margin-bottom: 20px;
+            border-bottom: 1px solid #ddd;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+
+        .resume-container {
+            width: 794px;
+            margin: 0 auto;
+        }
+
+        .page {
+            width: 794px;
+            min-height: 1123px;
+            padding: 40px;
+            margin-bottom: 20px;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+            overflow: hidden;
+        }
+
+        .page-section {
+            margin-bottom: 20px;
+        }
+
+        .page h1 {
+            font-size: 28px;
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 10px;
+            color: #2c3e50;
+        }
+
+        .page h2 {
+            font-size: 18px;
+            margin-top: 20px;
+            margin-bottom: 10px;
+            border-bottom: 1px solid #2c3e50;
+            padding-bottom: 3px;
+            font-weight: 600;
+            color: #2c3e50;
+        }
+
+        .page p,
+        .page li {
+            font-size: 14px;
+            margin-bottom: 6px;
+            line-height: 1.4;
+        }
+
+        .page ul {
+            margin-left: 20px;
+            padding-left: 0;
+        }
+
+        .page a {
+            color: #3498db;
+            text-decoration: underline;
+        }
+
+        .contact {
+            font-size: 13px;
+            margin-bottom: 10px;
+            text-align: center;
+            color: #7f8c8d;
+        }
+
+        /* Minimalist Button */
+        .actions {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        button#download-pdf {
+            padding: 10px 20px;
+            border: 1px solid #3498db;
+            background: transparent;
+            color: #3498db;
+            border-radius: 6px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.25s ease;
+        }
+
+        button#download-pdf:hover {
+            background: #3498db;
+            color: #fff;
+        }
+
+        /* Minimalist Popup Overlay */
+        #download-popup {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.2);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        /* Minimalist Popup Box */
+        #popup-content {
+            background: white;
+            padding: 25px 20px;
+            text-align: center;
+            border-radius: 10px;
+            width: 350px;
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.08);
+            font-family: 'Inter', sans-serif;
+        }
+
+        #popup-content h2 {
+            margin-bottom: 15px;
+            font-weight: 600;
+            font-size: 18px;
+            color: #2c3e50;
+        }
+
+        #popup-content input {
+            width: 100%;
+            padding: 10px 12px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            margin-bottom: 20px;
+            font-size: 15px;
+        }
+
+        #popup-content button {
+            padding: 10px 18px;
+            border: none;
+            border-radius: 6px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.25s ease;
+            margin: 0 5px;
+        }
+
+        #confirm-download {
+            background: #3498db;
+            color: white;
+        }
+
+        #confirm-download:hover {
+            background: #217dbb;
+        }
+
+        #cancel-download {
+            background: #eee;
+            color: #555;
+        }
+
+        #cancel-download:hover {
+            background: #ccc;
+        }
+
+        .success-message {
+            display: none;
+            background: #27ae60;
+            color: white;
+            padding: 15px;
+            border-radius: 6px;
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        footer {
+            text-align: center;
+            padding: 20px;
+            margin-top: 20px;
+            color: #7f8c8d;
+            font-size: 0.9rem;
+        }
+
+        /* Responsive Adjustments */
+@media (max-width: 1024px) {
+    .resume-container,
+    .page {
+        width: 100%;
+        min-height: auto;
+        padding: 20px;
+    }
+}
+
+@media (max-width: 768px) {
+    h1 {
+        font-size: 2rem;
+    }
+    .page h1 {
+        font-size: 24px;
+    }
+    .page h2 {
+        font-size: 16px;
+    }
+    .page p,
+    .page li {
+        font-size: 13px;
+    }
+    .contact {
+        font-size: 12px;
+    }
+    #popup-content {
+        width: 90%;
+    }
+}
+
+@media (max-width: 480px) {
+    body {
+        padding: 10px;
+    }
+    h1 {
+        font-size: 1.6rem;
+    }
+    .page {
+        padding: 15px;
+    }
+    .actions {
+        flex-direction: column;
+        gap: 10px;
+    }
+    button#download-pdf {
+        width: 100%;
+    }
+}
+
+
+</style>
+
+</head>
+
+<body>
+    <div class="container">
+        <header>
+            <h1>Resume Preview</h1>
+            <p>Review your resume and download it as a PDF</p>
+        </header>
+
+        <div class="resume-container" id="resume-container">
+            <!-- Pages will be inserted here -->
+        </div>
+
+        <div class="actions">
+            <button id="download-pdf">Download PDF</button>
+        </div>
+
+        <div class="success-message" id="success-message">
+            Your PDF has been generated successfully!
+        </div>
+
+        <div id="download-popup">
+            <div id="popup-content">
+                <h2>Enter File Name</h2>
+                <input type="text" id="pdf-filename" placeholder="Resume_Name" value="My_Resume">
+                <div>
+                    <button id="confirm-download">Download</button>
+                    <button id="cancel-download">Cancel</button>
+                </div>
+            </div>
+        </div>
+
+        <footer>
+            <p>Resume Builder Tool &copy; 2023</p>
+        </footer>
+    </div>
+
+<script src="scripts/script.js"></script>
+</body>
+
+</html>
